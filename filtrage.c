@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 #include "bmp.h"
 
 
@@ -15,8 +16,9 @@ PIXEL** create_tab(int width, int height)
 //i : ligne, j : colonne
 void set_pixel(PIXEL** image, int i, int j, PIXEL px)
 {
-    image[i][j] = px;
+    image[i][j]= px;
 }
+
 PIXEL get_pixel(PIXEL** image, int i, int j)
 {
     return image[i][j];
@@ -59,18 +61,17 @@ PIXEL* tab_to_im(PIXEL** src, int width, int height)
     return im;
 }
 
-PIXEL** conv3x3(PIXEL** src,int width, int height, int* k)
+PIXEL** conv3x3(PIXEL** src,int width, int height, int* kernel)
 {
     PIXEL **res = create_tab(width, height);
-    int i, j;
+    int i, j, k;
     int di, dj;
-    int red, green, blue;
     PIXEL pixel;
-    printf("Go ..\n");
+    int red, green, blue;
     //ignore sides
     for(i=1;i < height-1;i++)
     {
-        for(j=1;i < width-1;i++)
+        for(j=1;j < width-1;j++)
         {
             red = 0;
             green = 0;
@@ -80,12 +81,12 @@ PIXEL** conv3x3(PIXEL** src,int width, int height, int* k)
                 for(dj=0;dj < 3;dj++)
                 {
                     pixel = get_pixel(src, i+di-1, j+dj-1);
-                    blue += (int)pixel.blue * k[di+dj*3];
-                    green += (int)pixel.green * k[di+dj*3];
-                    red += (int)pixel.red * k[di+dj*3];
+                    k = kernel[dj+di*3];
+                    blue += (int)pixel.blue * k;
+                    green += (int)pixel.green * k;
+                    red += (int)pixel.red * k;
                 }
             }
-            printf("%d, %d\n", (unsigned char)(blue/9), pixel.blue);
             PIXEL new_pixel = {(unsigned char)(blue/9), (unsigned char)(green/9), (unsigned char)(red/9)};
             set_pixel(res, i, j, new_pixel);
         }
