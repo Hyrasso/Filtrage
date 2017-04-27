@@ -20,10 +20,10 @@ int main(void)
         const unsigned int width = lenaBitmap->infoHeader.width;
         const unsigned int height = lenaBitmap->infoHeader.height;
 
-        int kernel[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+        int kernel[9] = {-1, -2, -1, 0, 0, 0, 1, 2 ,1};
         PIXEL **tab;
         tab = im_to_tab(image, width, height);
-        tab = conv3x3(tab, width, height, kernel);
+        tab = sobel(tab, width, height);
         image = tab_to_im(tab, width, height);
         free_tab(tab, height);
         lenaBitmap->raster = image;
@@ -31,7 +31,7 @@ int main(void)
 
     if (lenaBitmap)
     {
-        saveBitmapFile(".\\images\\lena_kernelI.bmp", lenaBitmap);
+        saveBitmapFile(".\\images\\lena_kernelSobel.bmp", lenaBitmap);
         destroyBitmapFile(lenaBitmap);
         printf("Bye bye Lena.\n");
     }

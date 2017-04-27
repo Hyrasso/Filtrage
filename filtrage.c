@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <assert.h>
+#include <math.h>
 #include "bmp.h"
 
 
@@ -61,7 +61,7 @@ PIXEL* tab_to_im(PIXEL** src, int width, int height)
     return im;
 }
 
-PIXEL** conv3x3(PIXEL** src,int width, int height, int* kernel)
+PIXEL** conv3x3(PIXEL** src, int width, int height, int* kernel)
 {
     PIXEL **res = create_tab(width, height);
     int i, j, k;
@@ -94,3 +94,27 @@ PIXEL** conv3x3(PIXEL** src,int width, int height, int* kernel)
     return res;
 }
 
+PIXEL** sobel(PIXEL** src, int width, int height)
+{
+    int kx[9] = {-1, 0, 1, -2, 0, 2, -1, 0, 1};
+    PIXEL** gx;
+    int ky[9] = {-1, -2, -1, 0, 0, 0, 1, 2 ,1};
+    PIXEL** gy;
+    int i, j;
+    PIXEL x, y;
+    gx = conv3x3(src, width, height, kx);
+    gy = conv3x3(src, width, height, ky);
+    for(i=0;i < height;i++)
+    {
+        for(j=0;j < width;j++)
+        {
+            x = get_pixel(gx, i, j);
+            y = get_pixel(gy, i, j);
+            x.red = (unsigned char)sqrt(pow((double)x.red, 2) + pow((double)y.red, 2));
+            x.blue = (unsigned char)sqrt(pow((double)x.blue, 2) + pow((double)y.blue, 2));
+            x.green = (unsigned char)sqrt(pow((double)x.green, 2) + pow((double)y.green, 2));
+            set_pixel(gx, i, j, x);
+        }
+    }
+    return gx;
+}
