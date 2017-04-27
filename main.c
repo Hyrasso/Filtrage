@@ -11,7 +11,7 @@ int main(void)
     PIXEL vert = {0, 255, 0};
     */
 
-    BITMAP * const lenaBitmap = loadBitmapFile(".\\images\\lena_256_color.bmp");
+    BITMAP * lenaBitmap = loadBitmapFile(".\\images\\lena_256_color.bmp");
     if (lenaBitmap->infoHeader.bits == 24 && !lenaBitmap->palette)
     {
         PIXEL * image = (PIXEL *)lenaBitmap->raster;
@@ -23,6 +23,7 @@ int main(void)
         tab = im_to_tab(image, width, height);
         image = tab_to_im(tab, width, height);
         free_tab(tab, height);
+        lenaBitmap->raster = image;
     }
 
     if (lenaBitmap)

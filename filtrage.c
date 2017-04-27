@@ -17,7 +17,10 @@ void set_pixel(PIXEL** image, int i, int j, PIXEL px)
 {
     image[i][j] = px;
 }
-
+PIXEL get_pixel(PIXEL** image, int i, int j)
+{
+    return image[i][j];
+}
 void free_tab(PIXEL** image, int height)
 {
     int i;
@@ -36,7 +39,7 @@ PIXEL** im_to_tab(PIXEL* src, int width, int height)
     {
         for(x=0;x<width;x++)
         {
-            set_pixel(tab, x, y, src[y*width+x]);
+            set_pixel(tab, x, y, src[(height-1-y)*width+x]);
         }
     }
     return tab;
@@ -50,38 +53,41 @@ PIXEL* tab_to_im(PIXEL** src, int width, int height)
     {
         for(x=0;x < width;x++)
         {
-            im[x+y*width] = src[y][x];
+            im[x+(height-1-y)*width] = get_pixel(src, x, y);
         }
     }
     return im;
 }
 
-PIXEL** conv3x3(PIXEL* src,int width, int height, int* k)
+PIXEL** conv3x3(PIXEL** src,int width, int height, int* k)
 {
-    PIXEL** res = create_tab(width, height);
-    int x, y;
-    int dx, dy;
+    PIXEL **res = create_tab(width, height);
+    int i, j;
+    int di, dj;
     int red, green, blue;
-    PIXEL p;
-    for(y=1;y < height-1;y++)
+    PIXEL pixel;
+    printf("Go ..\n");
+    //ignore sides
+    for(i=1;i < height-1;i++)
     {
-        for(x=1;x < width-1;x++)
+        for(j=1;i < width-1;i++)
         {
             red = 0;
             green = 0;
             blue = 0;
-            for(dx=0;dx < 3;dx++)
+            for(di=0;di < 3;di++)
             {
-                for(dy=0;dy < 3;dy++)
+                for(dj=0;dj < 3;dj++)
                 {
-                    p = src[(y+dy)*width+(x+dx)];
-                    blue += (int)p.blue * k[dx+dy*3];
-                    green += (int)p.green * k[dx+dy*3];
-                    red += (int)p.red * k[dx+dy*3];
+                    pixel = get_pixel(src, i+di-1, j+dj-1);
+                    blue += (int)pixel.blue * k[di+dj*3];
+                    green += (int)pixel.green * k[di+dj*3];
+                    red += (int)pixel.red * k[di+dj*3];
                 }
             }
-            PIXEL np = {(char)(blue/9), (char)(green/9), (char)(red/9)};
-            set_pixel(res, y, x, np);
+            printf("%d, %d\n", (unsigned char)(blue/9), pixel.blue);
+            PIXEL new_pixel = {(unsigned char)(blue/9), (unsigned char)(green/9), (unsigned char)(red/9)};
+            set_pixel(res, i, j, new_pixel);
         }
     }
     return res;
