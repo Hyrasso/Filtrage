@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1488530794 source:c:\users\demas\documents\github\filtrage\bmp.c
+	<stdio.h>
+	<stdlib.h>
+	"bmp.h"
+
+1488530794 c:\users\demas\documents\github\filtrage\bmp.h
+
+1493307741 source:c:\users\demas\documents\github\filtrage\filtrage.c
+	<stdio.h>
+	"bmp.h"
+
+1493307517 source:c:\users\demas\documents\github\filtrage\main.c
+	<stdio.h>
+	"bmp.h"
+	"filtrage.h"
+
+1493307769 c:\users\demas\documents\github\filtrage\filtrage.h
+
