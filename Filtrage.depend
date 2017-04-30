@@ -11,11 +11,12 @@
 	<math.h>
 	"bmp.h"
 
-1493572981 source:c:\users\demas\documents\github\filtrage\main.c
+1493581427 source:c:\users\demas\documents\github\filtrage\main.c
 	<stdio.h>
 	"bmp.h"
 	"filtrage.h"
 	"functions.h"
+	"segment.h"
 
 1493308895 c:\users\demas\documents\github\filtrage\filtrage.h
 
@@ -24,4 +25,10 @@
 	<stdio.h>
 
 1493569551 c:\users\demas\documents\github\filtrage\functions.h
+
+1493581347 source:c:\users\demas\documents\github\filtrage\segment.c
+	"bmp.h"
+	"filtrage.h"
+
+1493575855 c:\users\demas\documents\github\filtrage\segment.h
 

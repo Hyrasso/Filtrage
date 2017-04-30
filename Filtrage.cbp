@@ -39,9 +39,17 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="filtrage.h" />
+		<Unit filename="functions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="segment.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="segment.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
