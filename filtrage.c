@@ -87,7 +87,7 @@ PIXEL** conv3x3(PIXEL** src, int width, int height, int* kernel)
                     red += (int)pixel.red * k;
                 }
             }
-            PIXEL new_pixel = {(unsigned char)(blue/9), (unsigned char)(green/9), (unsigned char)(red/9)};
+            PIXEL new_pixel = {(unsigned char)abs(blue/9), (unsigned char)abs(green/9), (unsigned char)abs(red/9)};
             set_pixel(res, i, j, new_pixel);
         }
     }
