@@ -43,5 +43,4 @@ void greyscale(PIXEL * image, unsigned int size) {
         image[i].red = (c.red + c.blue + c.green)/3;
         image[i].green = (c.red + c.blue + c.green)/3;
     }
-
 }
