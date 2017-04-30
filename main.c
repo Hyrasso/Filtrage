@@ -13,7 +13,7 @@ int main(void)
     */
 
 
-    BITMAP * lenaBitmap = loadBitmapFile(".\\images\\lena_256_color.bmp");
+    BITMAP * lenaBitmap = loadBitmapFile(".\\images\\valve.bmp");
     if (lenaBitmap->infoHeader.bits == 24 && !lenaBitmap->palette)
     {
         PIXEL * image = (PIXEL *)lenaBitmap->raster;
@@ -25,7 +25,8 @@ int main(void)
         PIXEL **tab;
         greyscale(image, size);
         tab = im_to_tab(image, width, height);
-        tab = sobel(tab, width, height);
+        tab = conv3x3(tab, width, height, kernel);
+        //tab = sobel(tab, width, height);
         image = tab_to_im(tab, width, height);
         free_tab(tab, height);
         lenaBitmap->raster = image;
@@ -33,9 +34,9 @@ int main(void)
 
     if (lenaBitmap)
     {
-        saveBitmapFile(".\\images\\lena_kernelSobel.bmp", lenaBitmap);
+        saveBitmapFile(".\\images\\valveSobel.bmp", lenaBitmap);
         destroyBitmapFile(lenaBitmap);
-        printf("Bye bye Lena.\n");
+        printf("Done.\n");
     }
     else
         printf("Echec.\n");

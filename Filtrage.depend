@@ -6,15 +6,22 @@
 
 1488530794 c:\users\demas\documents\github\filtrage\bmp.h
 
-1493314407 source:c:\users\demas\documents\github\filtrage\filtrage.c
+1493572414 source:c:\users\demas\documents\github\filtrage\filtrage.c
 	<stdio.h>
 	<math.h>
 	"bmp.h"
 
-1493314216 source:c:\users\demas\documents\github\filtrage\main.c
+1493572261 source:c:\users\demas\documents\github\filtrage\main.c
 	<stdio.h>
 	"bmp.h"
 	"filtrage.h"
+	"functions.h"
 
 1493308895 c:\users\demas\documents\github\filtrage\filtrage.h
+
+1493571231 source:c:\users\demas\documents\github\filtrage\functions.c
+	"bmp.h"
+	<stdio.h>
+
+1493569551 c:\users\demas\documents\github\filtrage\functions.h
 

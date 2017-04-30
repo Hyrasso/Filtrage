@@ -16,12 +16,12 @@ PIXEL** create_tab(int width, int height)
 //i : ligne, j : colonne
 void set_pixel(PIXEL** image, int i, int j, PIXEL px)
 {
-    image[i][j]= px;
+    image[j][i]= px;
 }
 
 PIXEL get_pixel(PIXEL** image, int i, int j)
 {
-    return image[i][j];
+    return image[j][i];
 }
 void free_tab(PIXEL** image, int height)
 {
@@ -69,9 +69,9 @@ PIXEL** conv3x3(PIXEL** src, int width, int height, int* kernel)
     PIXEL pixel;
     int red, green, blue;
     //ignore sides
-    for(i=1;i < height-1;i++)
+    for(j=1;j < height-1;j++)
     {
-        for(j=1;j < width-1;j++)
+        for(i=1;i < width-1;i++)
         {
             red = 0;
             green = 0;
@@ -104,9 +104,9 @@ PIXEL** sobel(PIXEL** src, int width, int height)
     PIXEL x, y;
     gx = conv3x3(src, width, height, kx);
     gy = conv3x3(src, width, height, ky);
-    for(i=0;i < height;i++)
+    for(j=0;j < height;j++)
     {
-        for(j=0;j < width;j++)
+        for(i=0;i < width;i++)
         {
             x = get_pixel(gx, i, j);
             y = get_pixel(gy, i, j);
