@@ -11,8 +11,6 @@ int main(void)
     PIXEL red = {0, 0, 255};
     PIXEL green = {0, 255, 0};
 
-
-
     BITMAP * lenaBitmap = loadBitmapFile(".\\images\\lena_256_color.bmp");
     if (lenaBitmap->infoHeader.bits == 24 && !lenaBitmap->palette)
     {
@@ -23,8 +21,10 @@ int main(void)
 
         PIXEL **tab;
         tab = im_to_tab(image, width, height);
-        segment_bresenham(tab, 0, 0, 255, 125, green);//1
         /*
+        tab = sobel(tab, width, height);
+
+        segment_bresenham(tab, 0, 0, 255, 125, green);//1
         segment_bresenham(tab, 0, 0, 125, 255, green);//2
 
         segment_bresenham(tab, 255, 0, 125, 255, white);//3
@@ -35,15 +35,16 @@ int main(void)
 
         segment_bresenham(tab, 0, 255, 125, 0, red);//7
         segment_bresenham(tab, 0, 255, 255, 125, red);//8
-        */
         image = tab_to_im(tab, width, height);
+        */
         free_tab(tab, height);
         lenaBitmap->raster = image;
+
     }
 
     if (lenaBitmap)
     {
-        saveBitmapFile(".\\images\\lena_segement.bmp", lenaBitmap);
+        saveBitmapFile(".\\images\\lena_polygone.bmp", lenaBitmap);
         destroyBitmapFile(lenaBitmap);
         printf("Done.\n");
     }

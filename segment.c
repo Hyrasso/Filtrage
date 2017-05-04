@@ -50,37 +50,188 @@ void tracer_Segment_2(PIXEL** image, int x1, int y1, int x2, int y2, PIXEL color
 
 void segment_bresenham(PIXEL** image, int x1, int y1, int x2, int y2, PIXEL color)
 {
-    int x, y, dx, dy, sx, sy, p;
-    int swap = 0;
-    dx = abs(x2 - x1);
-    dy = abs(y2 - y1);
-    sx = sign(x2 - x1);
-    sy = sign(y1 - y1);
-    if(dx < dy)
-    {
-        dx = dy + dx;
-        dy = dx - dy;
-        dx = dx - dy;
-        swap = 1;
-    }
-    p = 2 * dy - dx;
-    y = y1;
-    x = x1;
-    int i;
-    for(i=1;i<=dx;i++) {
-        set_pixel(image, x, y, color);
-        while(p >=0) {
-            if(swap) {
-                x += sx;
-            } else {
-                y += sy;
-                p -= - 2 * dx;
+    //https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_segment_de_Bresenham#Algorithme_g.C3.A9n.C3.A9ral_optimis.C3.A9
+    int dx = x2 - x1, dy = y2 - y1;
+    if(dx != 0) {
+        if(dx > 0) {
+            if(dy != 0) {
+                if(dy > 0) {
+                    if(dx >= dy) {
+                        int e = dx ;
+                        dx = e * 2 ;
+                        dy = dy * 2 ;  // e est positif
+                        while(1) {  // déplacements horizontaux
+                          set_pixel(image, x1, y1, color) ;
+                          x1 = x1 + 1;
+                          if(x1 == x2) break ;
+                          e = e - dy;
+                          if(e < 0) {
+                            y1 = y1 + 1 ;  // déplacement diagonal
+                            e = e + dx ;
+                          }
+                        }
+                    } else {
+                    // vecteur oblique proche de la verticale, dans le 2d octant
+                        int e = dy;
+                        dy = e * 2 ;
+                        dx = dx * 2 ;  // e est positif
+                        while(1) {  // déplacements verticaux
+                          set_pixel(image, x1, y1, color) ;
+                          y1 = y1 + 1;
+                          if(y1 == y2) break;
+                          e = e - dx;
+                          if(e < 0) {
+                            x1 = x1 + 1 ;  // déplacement diagonal
+                            e = e + dy ;
+                          }
+                        }
+                    }
+
+            } else {  // dy < 0 (et dx > 0)
+              // vecteur oblique dans le 4e cadran
+
+              if(dx >= -dy) {
+                // vecteur diagonal ou oblique proche de l’horizontale, dans le 8e octant
+                int e = dx;
+                dx = e * 2 ; dy = dy * 2 ;  // e est positif
+                while(1) {  // déplacements horizontaux
+                  set_pixel(image, x1, y1, color) ;
+                  x1 = x1 + 1;
+                  if(x1 == x2) break;
+                  e = e + dy;
+                  if(e < 0) {
+                    y1 = y1 - 1 ;  // déplacement diagonal
+                    e = e + dx ;
+                  }
+                }
+              } else {// vecteur oblique proche de la verticale, dans le 7e octant
+                int e = dy;
+                dy = e * 2 ;
+                dx = dx * 2 ;  // e est négatif
+                while(1) {  // déplacements verticaux
+                  set_pixel(image, x1, y1, color);
+                  y1 = y1 - 1;
+                  if(y1 == y2) break;
+                  e = e + dx;
+                  if(e > 0) {
+                    x1 = x1 + 1 ;  // déplacement diagonal
+                    e = e + dy ;
+                  }
+                }
+              }
+
             }
+          } else { // dy = 0 (et dx > 0)
+
+            // vecteur horizontal vers la droite
+            do {
+              set_pixel(image, x1, y1, color) ;
+              x1 = x1 + 1;
+            }while(x1 == x2);
+
+          }
+        } else { // dx < 0
+          if(dy != 0) {
+            if(dy > 0) {
+              // vecteur oblique dans le 2d quadran
+
+              if(-dx >= dy) {
+                // vecteur diagonal ou oblique proche de l’horizontale, dans le 4e octant
+                int e = dx;
+                dx = e * 2 ;
+                dy = dy * 2 ;  // e est négatif
+                while(1) {  // déplacements horizontaux
+                  set_pixel(image, x1, y1, color) ;
+                  x1 = x1 - 1;
+                  if(x1 == x2) break;
+                  e = e + dy;
+                  if(e >= 0) {
+                    y1 = y1 + 1 ;  // déplacement diagonal
+                    e = e + dx ;
+                  }
+                }
+              } else {
+                // vecteur oblique proche de la verticale, dans le 3e octant
+                int e = dy;
+                dy = e * 2 ;
+                dx = dx * 2 ;  // e est positif
+                while(1) {  // déplacements verticaux
+                  set_pixel(image, x1, y1, color) ;
+                  y1 = y1 + 1;
+                  if(y1 == y2) break;
+                  e = e + dx;
+                  if(e <= 0) {
+                    x1 = x1 - 1 ;  // déplacement diagonal
+                    e = e + dy ;
+                  }
+                }
+              }
+
+            } else  {// dy < 0 (et dx < 0)
+              // vecteur oblique dans le 3e cadran
+
+              if(dx <= dy) {
+                // vecteur diagonal ou oblique proche de l’horizontale, dans le 5e octant
+                int e = dx;
+                dx = e * 2 ;
+                dy = dy * 2 ;  // e est négatif
+                while(1) {  // déplacements horizontaux
+                  set_pixel(image, x1, y1, color) ;
+                  x1 = x1 - 1;
+                  if(x1 == x2) break;
+                  e = e - dy;
+                  if(e >= 0) {
+                    y1 = y1 - 1 ;  // déplacement diagonal
+                    e = e + dx ;
+                  }
+                }
+              } else { // vecteur oblique proche de la verticale, dans le 6e octant
+                int e = dy;
+                dy = e * 2 ;
+                dx = dx * 2 ;  // e est négatif
+                while(1) {  // déplacements verticaux
+                  set_pixel(image, x1, y1, color) ;
+                  y1 = y1 - 1;
+                  if(y1 == y2) break;
+                  e = e - dx;
+                  if(e >= 0) {
+                    x1 = x1 - 1 ;  // déplacement diagonal
+                    e = e + dy ;
+                  }
+                }
+              }
+
+            }
+          } else { // dy = 0 (et dx < 0)
+
+            // vecteur horizontal vers la gauche
+            do {
+              set_pixel(image, x1, y1, color) ;
+              x1 = x1 - 1;
+            }while(x1 == x2) ;
+
+          }
         }
-        if(swap)
-            y += sy;
-        else
-            x += sx;
-        p += 2 * dy;
-    }
+      } else {// dx = 0
+        if(dy != 0) {
+          if(dy > 0) {
+
+            // vecteur vertical croissant
+            do {
+              set_pixel(image, x1, y1, color) ;
+              y1 = y1 + 1;
+            }while(y1 == y2) ;
+
+          } else  {// dy < 0 (et dx = 0)
+
+            // vecteur vertical décroissant
+            do {
+              set_pixel(image, x1, y1, color) ;
+              y1 = y1 - 1;
+            }while(y1 == y2);
+
+          }
+        }
+      }
+      // le pixel final (x2, y2) n’est pas tracé.
 }
