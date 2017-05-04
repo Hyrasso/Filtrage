@@ -3,6 +3,9 @@
 #include "filtrage.h"
 #include "functions.h"
 #include "segment.h"
+#include "polygon.h"
+
+#define N 3
 
 int main(void)
 {
@@ -11,6 +14,18 @@ int main(void)
     PIXEL red = {0, 0, 255};
     PIXEL green = {0, 255, 0};
 
+    POINT points[N] = {{10, 10},
+                    {100, 10},
+                    {10, 100}};
+
+    /*
+    POINT points[N] = { {173, 71},
+                        {206, 56},
+                        {69, 196},
+                        {79, 149},
+                        {58, 70},
+                        {109, 19}};
+    */
     BITMAP * lenaBitmap = loadBitmapFile(".\\images\\lena_256_color.bmp");
     if (lenaBitmap->infoHeader.bits == 24 && !lenaBitmap->palette)
     {
@@ -21,6 +36,7 @@ int main(void)
 
         PIXEL **tab;
         tab = im_to_tab(image, width, height);
+        polygon_filled(tab, points, N, red);
         /*
         tab = sobel(tab, width, height);
 
@@ -35,8 +51,8 @@ int main(void)
 
         segment_bresenham(tab, 0, 255, 125, 0, red);//7
         segment_bresenham(tab, 0, 255, 255, 125, red);//8
-        image = tab_to_im(tab, width, height);
         */
+        image = tab_to_im(tab, width, height);
         free_tab(tab, height);
         lenaBitmap->raster = image;
 
@@ -44,7 +60,7 @@ int main(void)
 
     if (lenaBitmap)
     {
-        saveBitmapFile(".\\images\\lena_polygone.bmp", lenaBitmap);
+        saveBitmapFile(".\\images\\lena_polygonefill.bmp", lenaBitmap);
         destroyBitmapFile(lenaBitmap);
         printf("Done.\n");
     }

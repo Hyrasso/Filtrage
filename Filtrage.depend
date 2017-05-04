@@ -11,12 +11,13 @@
 	<math.h>
 	"bmp.h"
 
-1493929648 source:c:\users\demas\documents\github\filtrage\main.c
+1493936284 source:c:\users\demas\documents\github\filtrage\main.c
 	<stdio.h>
 	"bmp.h"
 	"filtrage.h"
 	"functions.h"
 	"segment.h"
+	"polygon.h"
 
 1493308895 c:\users\demas\documents\github\filtrage\filtrage.h
 
@@ -26,9 +27,17 @@
 
 1493569551 c:\users\demas\documents\github\filtrage\functions.h
 
-1493929545 source:c:\users\demas\documents\github\filtrage\segment.c
+1493930977 source:c:\users\demas\documents\github\filtrage\segment.c
 	"bmp.h"
 	"filtrage.h"
 
-1493929747 c:\users\demas\documents\github\filtrage\segment.h
+1493930983 c:\users\demas\documents\github\filtrage\segment.h
+	"bmp.h"
+
+1493934598 c:\users\demas\documents\github\filtrage\polygon.h
+	"bmp.h"
+
+1493936503 source:c:\users\demas\documents\github\filtrage\polygon.c
+	"polygon.h"
+	"segment.h"
 

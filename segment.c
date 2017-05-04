@@ -1,7 +1,6 @@
 #include "bmp.h"
 #include "filtrage.h"
 
-#define sign(x) ((x>0)?1:((x<0)?-1:0))
 
 void tracer_Segment_0(PIXEL** image, int x1, int y1, int x2, int y2, PIXEL color) {
     int x, y, dx, dy, i;
